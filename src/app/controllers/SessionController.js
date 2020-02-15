@@ -36,7 +36,9 @@ class SessionController {
             },
             token: jwt.sign({
                 id
-            }, authConfig.secret, authConfig.expiresIn)
+            }, `${authConfig.secret}`, {
+                expiresIn: `${authConfig.expiresIn}`
+            })
         });
     };
 }
