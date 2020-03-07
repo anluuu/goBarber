@@ -5,7 +5,8 @@ import pt from 'date-fns/locale/pt';
 import User from '../models/User'
 import File from "../models/File";
 import Notification from "../schemas/Notification";
-import Mail from '../../lib/Mail';
+import Queue from "../../lib/Queue";
+import CancellationMail from "../jobs/CancellationMail";
 
 
 class AppointmentController {
@@ -116,6 +117,11 @@ class AppointmentController {
           model: User,
           as: 'provider',
           attributes: ['name', 'email']
+        },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name']
         }
       ]
     });
@@ -138,11 +144,9 @@ class AppointmentController {
 
     await appointments.save();
 
-    await Mail.sendMail({
-      to: `${appointments.provider.name} <${appointments.provider.email}>`,
-      subject: 'Agendamento Cancelado',
-      text: 'Você tem um novo cancelamento'
-    });
+    Queue.add(CancellationMail.key, { appointments });
+
+
 
     return res.status(200).json(appointments)
   }

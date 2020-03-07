@@ -1,8 +1,11 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Luan">
     <words>
+      <w>exphbs</w>
       <w>gobarber</w>
       <w>middlewares</w>
+      <w>nodemailer</w>
+      <w>nodemailerhbs</w>
       <w>sequelize</w>
     </words>
   </dictionary>
